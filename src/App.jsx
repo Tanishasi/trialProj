@@ -15,6 +15,9 @@ import ProtectedRoute from './component/ProtectedRoute'
 import Navbar2 from './component/Navbar2'
 import Leave from './pages/Leave'
 import StoreImageTextFirebase from './pages/StoreImageTextFirebase'
+import DashboardStatsGrid from './component/DashboardStatsGrid'
+import TransactionChart from './component/TransactionChart'
+import BuyerProfileChart from './component/BuyerProfileChart'
 
 const App = () => {
 
@@ -23,6 +26,7 @@ const App = () => {
     <AuthContextProvider>
     <Navbar1/>
     <Navbar2/>
+   
     <Routes>
       
 <Route path='/' element={<Home/>}/>
@@ -34,7 +38,9 @@ const App = () => {
 <Route path='/attendance' element={<Attendance/>}/>
 <Route path='/salary' element={<Salary/>}/>
 <Route path='/leave' element={<Leave/>}/>
-<Route path='/StoreImageTextFirebase' element={<StoreImageTextFirebase/>}/>
+<Route path='/DashboardStatsGrid' element={<DashboardStatsGrid/>}/>
+<Route path='/TransactionChart' element={<TransactionChart/>}/>
+<Route path='/Buyerprofilechart' element={<BuyerProfileChart/>}/>
 
 
 

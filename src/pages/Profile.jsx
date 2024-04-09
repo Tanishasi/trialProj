@@ -1,77 +1,79 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { db } from '../services/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 import { UserAuth } from '../context/AuthContext';
-import { getDownloadURL, ref } from 'firebase/storage';
-import { storage } from '../services/firebase';
 
 const Profile = () => {
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [profilePicture, setProfilePicture] = useState(null);
-  const { user } = UserAuth();
+    const { user } = UserAuth();
+    const [data, setData] = useState([]);
 
-  useEffect(() => {
-    // Fetch profile image URL from storage
-    const imageRef = ref(storage, `profilePictures/${user.uid}`);
-    getDownloadURL(imageRef)
-      .then((url) => {
-        setProfilePicture(url); 
-      })
-      .catch((error) => {
-        console.log('Error fetching profile image:', error);
-      });
-  }, [user.uid]);
+    const getData = async () => {
+        const valRef = collection(db, 'details');
+        const dataDb = await getDocs(valRef);
+        const allData = dataDb.docs.map(val => ({ ...val.data(), id: val.id }));
+        setData(allData);
+    };
 
-  const enableEdit = () => {
-    setIsEditMode(true);
-  };
+    useEffect(() => {
+        getData();
+    }, []);
 
-  const updateProfile = () => {
-    // Logic to update profile goes here
-    // For demonstration purposes, let's alert a message
-    alert('Profile updated successfully');
-    setIsEditMode(false);
-  };
-
-  return (
-    <div className="flex justify-center items-center h-[50%] mt-[6.9%]">
-      <div className="w-full max-w-lg  ">
-        <div id="profile" className=" border border-gray-200 rounded px-20 py-8  min-w-[170%]  ">
-          <h2 className="text-center mb-4">Profile</h2>
-          {profilePicture && <img src={profilePicture} alt="Profile Avatar" className="logo max-w-xs rounded-full mx-auto mb-4" />}
-          <label htmlFor="sid"></label>
-          <p className="text-sm">{user.uid}</p>
-          <form id="profileForm">
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={user.name}
-              readOnly={!isEditMode}
-              className="block w-full px-4 py-2 border border-gray-300 rounded mb-4"
-            />
-            {/* Other input fields */}
-            {isEditMode ? (
-              <button
-                type="button"
-                onClick={updateProfile}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              >
-                Update Profile
-              </button>
+    const result = data.filter(data => user.email === data.emailVal);
+console.log(result)
+    return (
+        <>
+            {result.length > 0 ? (
+                <div className="container rounded bg-white mt-10 ml-20 mb-5 p-5">
+                    <div className="mt-[8%] ml-[20%] grid grid-cols-1 md:grid-cols-3 gap-4">
+                       
+                        <div className="col-span-2 md:border-r md:border-gray-300 mb-6">
+                            <div className="p-3 py-5">
+                            <div className="flex items-center justify-center w-full h-16 border-b">
+              {/* Assuming user.profilePic is the URL of the profile picture */}
+              <img src={result[0].profileUrl} alt="Profile" className="w-[100px] h-[100px] rounded-full" />
+            </div>
+                                <div className="flex justify-between items-center mb-3 mt-20">
+                                    <h4 className="text-right">Profile</h4>
+                                </div>
+                                <div className="mb-6">
+                                    <div className="mb-6">
+                                        <label className="block font-semibold">Name</label>
+                                        <span className="border rounded-md p-2">{result[0].nameVal}</span>
+                                    </div>
+                                    <div className="mb-6">
+                                        <label className="block font-semibold">Email</label>
+                                        <span className="border rounded-md p-2">{user.email}</span>
+                                    </div>
+                                    <div className="mb-6"></div>
+                                </div>
+                                <div className="mt-5 flex justify-center">
+                                  
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="py-5">
+                                <div className="flex justify-between items-center mb-3">
+                                    <span className="font-semibold">Experience</span>
+                                    <span className="border rounded-md px-3 py-1">{result[0].experienceVal}</span>
+                                </div>
+                                <div>
+                                    <label className="block font-semibold">Address</label>
+                                    <span className="border rounded-md p-2">{result[0].addressVal}</span>
+                                </div>
+                                <div>
+                                    <label className="block font-semibold">DOB</label>
+                                    <span className="border rounded-md p-2">{result[0].dobVal}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             ) : (
-              <button
-                type="button"
-                onClick={enableEdit}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              >
-                Edit Profile
-              </button>
+                <h1>Fetching</h1>
             )}
-          </form>
-        </div>
-      </div>
-    </div>
-  );
+        </>
+    );
 };
 
 export default Profile;

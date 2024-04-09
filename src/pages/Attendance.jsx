@@ -4,13 +4,15 @@ import { UserAuth } from '../context/AuthContext'; // Import the UserAuth contex
 const Attendance = () => {
   const [attendanceData, setAttendanceData] = useState([]);
   const { user } = UserAuth(); // Get the current user from the UserAuth context
+  const [filteredData, setFilteredData] = useState([]); // State for filtered data
+  const [dataLoaded, setDataLoaded] = useState(false); // State to track if data is loaded
 
   useEffect(() => {
     readGoogleSheet(); // Fetch data when the component mounts
-  }, []); // Empty dependency array ensures this effect runs only once when the component mounts
+  },[]); // Empty dependency array ensures this effect runs only once when the component mounts
 
   const readGoogleSheet = () => {
-    fetch('https://sheetdb.io/api/v1/9kf4edagzdr9r')
+    fetch('https://sheetdb.io/api/v1/dj92fqopjka9m')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -18,49 +20,57 @@ const Attendance = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data); // Log the fetched data to inspect it
+        console.log("xxxxx",data); 
         if (Array.isArray(data)) {
-          // Filter data based on current user's email
-          const filteredData = data.filter(entry => entry['Email address'] === user.email);
-          // Extract desired columns (Date and Shift) from filtered data
-          const extractedData = filteredData.map(entry => ({
-            date: entry.Date,
-            shift: entry.Shift
-          }));
-          setAttendanceData(extractedData);
+          const filteredData = data.filter((data) => user.email === data.Email);
+          setFilteredData(filteredData);
+          setDataLoaded(true); // Set dataLoaded to true when data is loaded
         } else {
           console.error('Data is not in the expected format:', data);
         }
       })
       .catch((error) => console.error('Error fetching data:', error));
   };
-                                                                                                                             
+
   return (
-    <div className='text-black absolute top-[19%] h-[50%] w-[50%] overflow-hidden left-[60%] border-gray-400'>
-      <h2>Attendance</h2>
-      <div>
-        {attendanceData.length > 0 ? (
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Shift</th>
-              </tr>
-            </thead>
-            <tbody>
-              {attendanceData.map((entry, index) => (
-                <tr key={index}>
-                  <td>{entry.date}</td>
-                  <td>{entry.shift}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>No attendance data available for the current user. {user.email}</p>
-        )}
-      </div>
-    </div>
+    <>
+      {dataLoaded ? ( // Conditionally render based on dataLoaded state
+        <>
+          <div className="container mx-auto mt-[7%] ml-[30%] ">
+            <h2 className="text-3xl font-bold mb-4">Attendance</h2>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="col-span-2 md:col-span-1">
+                <table className="w-full border border-blue-900">
+                  <thead>
+                    <tr className="bg-blue-900">
+                      <th className="border border-blue-900 p-2 text-white">Date</th>
+                      <th className="border border-blue-900 p-2 text-white">Shift</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredData.length > 0 ? (
+                      filteredData.map((data) => (
+                        <tr key={data.id} className="border border-blue-900">
+                          <td className="border border-blue-900 p-2">{data.Timestamp}</td>
+                          <td className="border border-blue-900 p-2">{data.Shift}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td className="border border-blue-900 p-2">No attendance data available for the current user.</td>
+                        <td className="border border-blue-900 p-2">{}</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </>
   );
 };
 

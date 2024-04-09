@@ -18,6 +18,7 @@ const [data,setData]=useState([])
           })
         })
     }
+    
     const handleClick=async()=>{
       const valRef=collection(db,'txtData')
       await addDoc(valRef,{txtVal:txt,imgUrl:img})
@@ -30,7 +31,7 @@ const [data,setData]=useState([])
    setData(allData)
     console.log(dataDb)
     }
-    useEffect(()=>{getData()})
+    useEffect(()=>{getData()},[])
     console.log(data,'datadata')
   return (
     <div className='mt-[12%] ml-[30%]'> 
