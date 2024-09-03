@@ -6,7 +6,7 @@ import Signup from './pages/Signup'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Profile from './pages/Profile'
-import Routine from './pages/Routine'
+import Schedule from './pages/Schedule'
 import Attendance from './pages/Attendance'
 import Salary from './pages/Salary'
 import Navbar1 from './component/Navbar1'
@@ -15,9 +15,7 @@ import ProtectedRoute from './component/ProtectedRoute'
 import Navbar2 from './component/Navbar2'
 import Leave from './pages/Leave'
 import StoreImageTextFirebase from './pages/StoreImageTextFirebase'
-import DashboardStatsGrid from './component/DashboardStatsGrid'
-import TransactionChart from './component/TransactionChart'
-import BuyerProfileChart from './component/BuyerProfileChart'
+import AboutUs from './pages/AboutUs'
 
 const App = () => {
 
@@ -34,14 +32,11 @@ const App = () => {
 <Route path='/login' element={<Login/>}/>
 <Route path='/dashboard' element={<Dashboard/>}/>
 <Route path='/profile' element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
-<Route path='/routine' element={<Routine/>}/>
+<Route path='/schedule' element={<Schedule/>}/>
 <Route path='/attendance' element={<Attendance/>}/>
 <Route path='/salary' element={<Salary/>}/>
 <Route path='/leave' element={<Leave/>}/>
-<Route path='/DashboardStatsGrid' element={<DashboardStatsGrid/>}/>
-<Route path='/TransactionChart' element={<TransactionChart/>}/>
-<Route path='/Buyerprofilechart' element={<BuyerProfileChart/>}/>
-
+<Route path='/Aboutus' element={<AboutUs/>}/>
 
 
 

@@ -11,7 +11,6 @@ const Home = () => {
         <>
         {user?.email?(<></>):(<div>
             <Hero /> 
-            <Login/>
         </div>)}
         
         </>

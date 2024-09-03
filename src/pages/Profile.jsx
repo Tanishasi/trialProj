@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../services/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { UserAuth } from '../context/AuthContext';
+import { FaUser, FaEnvelope, FaCalendarAlt, FaMapMarkerAlt, FaBriefcase } from 'react-icons/fa';
 
 const Profile = () => {
     const { user } = UserAuth();
@@ -19,58 +20,59 @@ const Profile = () => {
     }, []);
 
     const result = data.filter(data => user.email === data.emailVal);
-console.log(result)
+    console.log(result);
+
     return (
         <>
             {result.length > 0 ? (
-                <div className="container rounded bg-white mt-10 ml-20 mb-5 p-5">
-                    <div className="mt-[8%] ml-[20%] grid grid-cols-1 md:grid-cols-3 gap-4">
-                       
-                        <div className="col-span-2 md:border-r md:border-gray-300 mb-6">
-                            <div className="p-3 py-5">
-                            <div className="flex items-center justify-center w-full h-16 border-b">
-              {/* Assuming user.profilePic is the URL of the profile picture */}
-              <img src={result[0].profileUrl} alt="Profile" className="w-[100px] h-[100px] rounded-full" />
-            </div>
-                                <div className="flex justify-between items-center mb-3 mt-20">
-                                    <h4 className="text-right">Profile</h4>
-                                </div>
-                                <div className="mb-6">
-                                    <div className="mb-6">
-                                        <label className="block font-semibold">Name</label>
-                                        <span className="border rounded-md p-2">{result[0].nameVal}</span>
+                <div className="absolute left-[35%] w-[75%] top-[15%] lg:left-[20%] p-6 bg-slate-100 rounded-lg shadow-md">
+                    <div className="flex flex-col md:flex-row items-start">
+                        {/* Profile Picture and Basic Info */}
+                        <div className="md:w-1/3 text-center md:text-left mb-6 md:mb-0">
+                            <img src={result[0].profileUrl} alt="Profile" className="w-[150px] h-[150px] rounded-full mx-auto md:mx-0 mb-4 border-2 border-gray-300" />
+                            <h2 className="text-2xl font-bold mb-2">{result[0].nameVal}</h2>
+                            <p className="text-gray-600">{user.email}</p>
+                        </div>
+
+                        {/* Profile Details */}
+                        <div className="md:w-2/3">
+                            <div className="mb-6">
+                                <div className="flex items-center mb-4">
+                                    <FaBriefcase className="text-blue-500 text-xl mr-3" />
+                                    <div>
+                                        <label className="block font-semibold text-lg">Experience</label>
+                                        <p className="border rounded-md p-2 bg-white border-gray-300">{result[0].experienceVal}</p>
                                     </div>
-                                    <div className="mb-6">
-                                        <label className="block font-semibold">Email</label>
-                                        <span className="border rounded-md p-2">{user.email}</span>
-                                    </div>
-                                    <div className="mb-6"></div>
                                 </div>
-                                <div className="mt-5 flex justify-center">
-                                  
+
+                                <div className="flex items-center mb-4">
+                                    <FaMapMarkerAlt className="text-blue-500 text-xl mr-3" />
+                                    <div>
+                                        <label className="block font-semibold text-lg">Address</label>
+                                        <p className="border rounded-md p-2 bg-white border-gray-300">{result[0].addressVal}</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center mb-4">
+                                    <FaCalendarAlt className="text-blue-500 text-xl mr-3" />
+                                    <div>
+                                        <label className="block font-semibold text-lg">DOB</label>
+                                        <p className="border rounded-md p-2 bg-white border-gray-300">{result[0].dobVal}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div>
-                            <div className="py-5">
-                                <div className="flex justify-between items-center mb-3">
-                                    <span className="font-semibold">Experience</span>
-                                    <span className="border rounded-md px-3 py-1">{result[0].experienceVal}</span>
-                                </div>
-                                <div>
-                                    <label className="block font-semibold">Address</label>
-                                    <span className="border rounded-md p-2">{result[0].addressVal}</span>
-                                </div>
-                                <div>
-                                    <label className="block font-semibold">DOB</label>
-                                    <span className="border rounded-md p-2">{result[0].dobVal}</span>
-                                </div>
+
+                            {/* Additional Sections or Actions */}
+                            <div className="mt-5 flex justify-center">
+                                {/* Additional actions, if any */}
                             </div>
                         </div>
                     </div>
                 </div>
             ) : (
-                <h1>Fetching</h1>
+                <div className="absolute left-[35%] w-[75%] top-[15%] lg:left-[20%] p-6 bg-slate-100 rounded-lg shadow-md text-center">
+                    <p>Loading profile data...</p>
+                </div>
             )}
         </>
     );

@@ -1,76 +1,73 @@
 import React, { useState, useEffect } from 'react';
-import { UserAuth } from '../context/AuthContext'; // Import the UserAuth context
+import { UserAuth } from '../context/AuthContext';
 
 const Attendance = () => {
-  const [attendanceData, setAttendanceData] = useState([]);
-  const { user } = UserAuth(); // Get the current user from the UserAuth context
-  const [filteredData, setFilteredData] = useState([]); // State for filtered data
-  const [dataLoaded, setDataLoaded] = useState(false); // State to track if data is loaded
+  const { user } = UserAuth();
+  const [filteredData, setFilteredData] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
-    readGoogleSheet(); // Fetch data when the component mounts
-  },[]); // Empty dependency array ensures this effect runs only once when the component mounts
+    // readGoogleSheet();
+  }, []);
 
-  const readGoogleSheet = () => {
-    fetch('https://sheetdb.io/api/v1/dj92fqopjka9m')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("xxxxx",data); 
-        if (Array.isArray(data)) {
-          const filteredData = data.filter((data) => user.email === data.Email);
-          setFilteredData(filteredData);
-          setDataLoaded(true); // Set dataLoaded to true when data is loaded
-        } else {
-          console.error('Data is not in the expected format:', data);
-        }
-      })
-      .catch((error) => console.error('Error fetching data:', error));
-  };
+  // const readGoogleSheet = () => {
+  //   fetch('https://sheetdb.io/api/v1/dj92fqopjka9m')
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       console.log("Attendance Data:", data);
+  //       if (Array.isArray(data)) {
+  //         const filteredData = data.filter((data) => user.email === data.Email);
+  //         setFilteredData(filteredData);
+  //         setDataLoaded(true);
+  //       } else {
+  //         console.error('Data is not in the expected format:', data);
+  //       }
+  //     })
+  //     .catch((error) => console.error('Error fetching data:', error));
+  // };
 
   return (
-    <>
-      {dataLoaded ? ( // Conditionally render based on dataLoaded state
-        <>
-          <div className="container mx-auto mt-[7%] ml-[30%] ">
-            <h2 className="text-3xl font-bold mb-4">Attendance</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-2 md:col-span-1">
-                <table className="w-full border border-blue-900">
-                  <thead>
-                    <tr className="bg-blue-900">
-                      <th className="border border-blue-900 p-2 text-white">Date</th>
-                      <th className="border border-blue-900 p-2 text-white">Shift</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredData.length > 0 ? (
-                      filteredData.map((data) => (
-                        <tr key={data.id} className="border border-blue-900">
-                          <td className="border border-blue-900 p-2">{data.Timestamp}</td>
-                          <td className="border border-blue-900 p-2">{data.Shift}</td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td className="border border-blue-900 p-2">No attendance data available for the current user.</td>
-                        <td className="border border-blue-900 p-2">{}</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </>
+    <div className="ml-64 mt-16 p-6">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Attendance Records</h2>
+
+      {!dataLoaded ? (
+        <div className="flex items-center justify-center h-64">
+          <p className="text-lg text-gray-600">Loading...</p>
+        </div>
       ) : (
-        <p>Loading...</p>
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+          <table className="min-w-full border-collapse">
+            <thead className="bg-blue-600 text-white">
+              <tr>
+                <th className="py-3 px-4 text-left text-sm font-medium">Date</th>
+                <th className="py-3 px-4 text-left text-sm font-medium">Shift</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white">
+              {filteredData.length > 0 ? (
+                filteredData.map((data, index) => (
+                  <tr key={index} className="border-b">
+                    <td className="py-2 px-4 text-sm text-gray-700">{data.Timestamp}</td>
+                    <td className="py-2 px-4 text-sm text-gray-700">{data.Shift}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2" className="py-2 px-4 text-center text-sm text-gray-500">
+                    No attendance data available for the current user.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 
