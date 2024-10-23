@@ -8,7 +8,7 @@ const AboutUs = () => {
       <div className="flex flex-col space-y-6">
         <BoxWrapper>
           <div className="flex flex-col items-center">
-            <img src="your_image_url_here" alt="Security Team" className="w-20 h-20 rounded-full mb-4" />
+            <img src="your_image_url_here" alt="Security Head" className="w-20 h-20 rounded-full mb-4" />
             <div className="text-lg italic">"Just dropping a quick note to inform you ttopr security team is working diligently to enhance safety measures across campus. Your safety is our priority."</div>
           </div>
         </BoxWrapper>

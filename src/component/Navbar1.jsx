@@ -22,8 +22,9 @@ const Navbar1 = () => {
 
     return (
         <div className="fixed top-0 left-0 w-full z-50">
-            <div className='bg-blue-900 text-white h-14 text-sm md:text-lg relative md:py-10'>
-                <div className='md:hidden absolute top-4 left-3 flex items-center'>
+            <div className='bg-blue-900 text-white h-14 flex items-center justify-between px-4'>
+                {/* Mobile Menu Button (Hamburger icon) */}
+                <div className='md:hidden'>
                     <button className="text-white" onClick={toggleSidebar}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             {sidebarOpen ? (
@@ -34,55 +35,68 @@ const Navbar1 = () => {
                         </svg>
                     </button>
                 </div>
-                <div className='hidden md:flex items-center justify-between md:w-screen md:float-left md:ml-5 md:text-sm'>
+
+                {/* Logo and Campus SMS - visible when logged out */}
+                <div className='flex items-center'>
+                    {!user?.email && (
+                        <>
+                            <img src="https://i.postimg.cc/fRrWVYhL/bit.png" alt="Logo" className='h-10 w-10 mr-4' /> {/* Replace with your logo */}
+                            <h2 className='text-lg md:text-xl font-bold'>Campus Security Management System</h2>
+                        </>
+                    )}
+                </div>
+
+                {/* Navbar Links for Desktop View (Only shown if logged in) */}
+                <div className='hidden md:flex items-center space-x-6'>
+                    {user?.email && (
+                        <>
+                            <Link to="/" className='text-white text-sm md:text-lg'>Home</Link>
+
+                        </>
+                    )}
+                </div>
+
+                {/* Right-side Login and Sign Up (Show only when logged out) */}
+                <div className='hidden md:flex items-center space-x-4'>
                     {user?.email ? (
-                        <div className='w-screen  mb-5'>
-                            <Link to="/dashboard" className='mr-4'>Home</Link>
-                            <Link to="/Schedule" className='mr-4'>Schedule</Link>
-                            <Link to="/Salary" className='mr-4'>Salary</Link>
-                            <Link to="/Attendance" className='mr-4 '>Attendance</Link>
-                            <button onClick={handleLogout} className='lg:ml-[87%] bg-slate-50 text-black px-5  rounded md:ml-[85%]'>Logout</button>
-                        </div>
+                        <button onClick={handleLogout} className='bg-slate-50 text-black px-4 py-1 rounded'>
+                            Logout
+                        </button>
                     ) : (
-                        <div className='flex items-center'>
-                            <div className='float-left mr-4'>
-                            <Link to="/dashboard" className='mr-4'>Home</Link>
-                            <Link to="/Schedule" className='mr-4'>Schedule</Link>
-                            <Link to="/Salary" className='mr-4'>Salary</Link>
-                            <Link to="/Attendance" className='mr-4 '>Attendance</Link>
-                            </div>
-                            <div className='float-right'>
-                                <Link to="/login" className='mr-4'>Login</Link>
-                                <button className='bg-white rounded text-black p-1 px-5' href="/signup">Sign Up</button>
-                            </div>
-                        </div>
+                        <>
+                            <Link to="/" className='text-white text-sm md:text-lg'>Login</Link>
+                            <Link to="/signup">
+                                <button className='bg-white text-black text-sm md:text-lg py-1 px-4 rounded'>
+                                    Sign Up
+                                </button>
+                            </Link>
+                        </>
                     )}
                 </div>
             </div>
+
+            {/* Sidebar for mobile view */}
             {sidebarOpen && (
                 <div className="md:hidden bg-blue-900 text-white h-full text-sm fixed top-14 left-0 w-56 flex flex-col z-20">
+                    {/* Links to display in the sidebar */}
                     {user?.email ? (
                         <>
-                            <Link to="/" className='p-4' onClick={toggleSidebar}>Home</Link>
-                            <Link to="/login" className='p-4' onClick={toggleSidebar}>Messages</Link>
-                            <Link to="/login" className='p-4' onClick={toggleSidebar}>About us</Link>
-                            <Link to="https://www.bitmesra.ac.in/Visit_Other_Department_9910?cid=1&deptid=190&pid=85" className='p-4' onClick={toggleSidebar}>Staff</Link>
+                            <Link to="/" className='p-4 hover:bg-blue-700' onClick={toggleSidebar}>Home</Link>
+                            <Link to="/schedule" className='p-4 hover:bg-blue-700' onClick={toggleSidebar}>Schedule</Link>
+                            <Link to="/salary" className='p-4 hover:bg-blue-700' onClick={toggleSidebar}>Salary</Link>
+                            <Link to="/attendance" className='p-4 hover:bg-blue-700' onClick={toggleSidebar}>Attendance</Link>
                             <button onClick={handleLogout} className='p-4'>Logout</button>
                         </>
                     ) : (
                         <>
-                            <Link to="/" className='p-4' onClick={toggleSidebar}>Home</Link>
-                            <Link to="/login" className='p-4' onClick={toggleSidebar}>Messages</Link>
-                            <Link to="/login" className='p-4' onClick={toggleSidebar}>About us</Link>
-                            <Link to="https://www.bitmesra.ac.in/Visit_Other_Department_9910?cid=1&deptid=190&pid=85" className='p-4' onClick={toggleSidebar}>Staff</Link>
-                            <Link to="/login" className='p-4' onClick={toggleSidebar}>Login</Link>
-                            <Link to="/signup" className='p-4' onClick={toggleSidebar}>Sign Up</Link>
+                            <Link to="/" className='p-4 hover:bg-blue-700' onClick={toggleSidebar}>Login</Link>
+                            <Link to="/signup" className='p-4 hover:bg-blue-700' onClick={toggleSidebar}>Sign Up</Link>
                         </>
                     )}
                 </div>
             )}
         </div>
     );
-}
+};
 
 export default Navbar1;

@@ -27,74 +27,71 @@ const Leave = () => {
   const result = data.filter(data => user.email === data.emailVal);
 
   return (
-    <>
+    <div className="flex justify-center items-center mt-[5%] pl-6 pr-4 sm:px-0"> {/* Added left padding only */}
       {result.length > 0 ? (
-        <div className="flex justify-center items-center h-[50%] mt-[6.9%]">
-          <div className="w-full max-w-lg">
-            <div id="Leave" className="shadow-md border border-gray-200 rounded px-8 py-8 w-[170%]">
-              <h1 className="text-center mb-4 text-2xl font-bold">Request Leave</h1>
-              {acknowledgment && (
-                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4" role="alert">
-                  {acknowledgment}
-                </div>
-              )}
-              <div className="text-center mb-4">
-                <p className="text-sm">{result[0].SID}</p>
+        <div className="w-full max-w-sm sm:max-w-lg">
+          <div className="shadow-md border border-gray-300 rounded-lg px-4 sm:px-8 py-6">
+            <h1 className="text-center mb-6 text-2xl font-semibold text-gray-800">Request Leave</h1>
+            {acknowledgment && (
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4 text-center">
+                {acknowledgment}
               </div>
-              <form id="profileForm" className="space-y-4" onSubmit={handleSubmit}>
-                <div>
-                  <label htmlFor="name" className="block">Name:</label>
-                  <input
-                    type="text"
-                    id="name"
-                    value={result[0].nameVal}
-                    className="block w-full px-4 py-2 border border-gray-300 rounded mb-4"
-                    readOnly
-                  />
-                </div>
-                {/* Other form fields */}
-                <div>
-                  <label htmlFor="position" className="block">Position:</label>
-                  <input
-                    type="text"
-                    id="position"
-                    name="position"
-                    value="Security Guard"
-                    className="block w-full px-4 py-2 border border-gray-300 rounded mb-4"
-                    readOnly
-                  />
-                </div>
-                <div>
-                  <label htmlFor="leaveType" className="block">Leave Type:</label>
-                  <select id="leaveType" name="leaveType" required className="block w-full px-4 py-2 border border-gray-300 rounded mb-4">
-                    <option value="vacation">Other</option>
-                    <option value="sick">Sick Leave</option>
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="startDate" className="block">Start Date:</label>
-                  <input type="date" id="startDate" name="startDate" required className="block w-full px-4 py-2 border border-gray-300 rounded mb-4" />
-                </div>
-                <div>
-                  <label htmlFor="endDate" className="block">End Date:</label>
-                  <input type="date" id="endDate" name="endDate" required className="block w-full px-4 py-2 border border-gray-300 rounded mb-4" />
-                </div>
-                <div>
-                  <label htmlFor="reason" className="block">Reason for Leave:</label>
-                  <textarea id="reason" name="reason" rows="4" required className="block w-full px-4 py-2 border border-gray-300 rounded mb-4"></textarea>
-                </div>
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                  Send
-                </button>
-              </form>
+            )}
+            <div className="text-center mb-4">
+              <p className="text-sm text-gray-600">{result[0].SID}</p>
             </div>
+            <form id="profileForm" className="space-y-4" onSubmit={handleSubmit}>
+              <div>
+                <label htmlFor="name" className="block text-gray-700">Name:</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={result[0].nameVal}
+                  className="block w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
+                  readOnly
+                />
+              </div>
+              <div>
+                <label htmlFor="position" className="block text-gray-700">Position:</label>
+                <input
+                  type="text"
+                  id="position"
+                  name="position"
+                  value="Security Guard"
+                  className="block w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
+                  readOnly
+                />
+              </div>
+              <div>
+                <label htmlFor="leaveType" className="block text-gray-700">Leave Type:</label>
+                <select id="leaveType" name="leaveType" required className="block w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500">
+                  <option value="vacation">Other</option>
+                  <option value="sick">Sick Leave</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="startDate" className="block text-gray-700">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" required className="block w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500" />
+              </div>
+              <div>
+                <label htmlFor="endDate" className="block text-gray-700">End Date:</label>
+                <input type="date" id="endDate" name="endDate" required className="block w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500" />
+              </div>
+              <div>
+                <label htmlFor="reason" className="block text-gray-700">Reason for Leave:</label>
+                <textarea id="reason" name="reason" rows="4" required className="block w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"></textarea>
+              </div>
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full">
+                Send
+              </button>
+            </form>
           </div>
         </div>
       ) : (
-        <p className="text-center mt-6">Fetching data...</p>
+        <p className="text-center mt-6 text-gray-600">Fetching data...</p>
       )}
-    </>
+    </div>
   );
-}
+};
 
 export default Leave;

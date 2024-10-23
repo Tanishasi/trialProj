@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { UserAuth } from '../context/AuthContext'; // Import the UserAuth context
 
 const Salary = () => {
-  // Static data for demonstration
   const workingDays = 22; // Example number of working days
   const hourlyRate = 700; // Example hourly rate
   
@@ -11,28 +10,24 @@ const Salary = () => {
   const [salary, setSalary] = useState(0);
 
   const calculateSalary = () => {
-    // Example calculation: total salary before taxes
     const grossSalary = hoursWorked * hourlyRate;
-    // Deducting taxes from gross salary
     const netSalary = grossSalary - taxes;
     setSalary(netSalary);
   };
 
   return (
     <>
-      <div className="flex justify-center items-center h-screen">
-        {/* Sidebar (left navigation) */}
-
+      <div className="flex justify-center items-center min-h-screen px-2 sm:px-0">
         {/* Main content */}
-        <div className="ml-64 w-full">
+        <div className="w-full max-w-xs sm:max-w-md md:max-w-lg mx-auto"> {/* Responsive max-width */}
           {/* Navbar */}
-          <div className="text-black py-4 px-8">
+          <div className="text-black py-4 px-4">
             <h1 className="text-2xl font-semibold">Salary</h1>
           </div>
 
           {/* Content */}
-          <div className="container mx-auto mt-12 px-4">
-            <div className="max-w-md mx-auto bg-white shadow-md rounded-md p-6">
+          <div className="mt-12">
+            <div className="bg-white shadow-md rounded-md p-4 sm:p-6"> {/* Responsive padding */}
               <h2 className="text-xl font-bold mb-4">Salary Details</h2>
               
               <div className="mb-4">
@@ -57,14 +52,14 @@ const Salary = () => {
                 />
               </div>
 
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col sm:flex-row justify-between items-center">
                 <button
                   onClick={calculateSalary}
-                  className="bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  className="bg-blue-900 text-white px-3 py-2 rounded hover:bg-blue-700 w-full sm:w-auto mb-4 sm:mb-0"
                 >
                   Calculate Salary
                 </button>
-                <div>
+                <div className="text-center sm:text-left">
                   <span className="font-semibold">Total Salary:</span> Rs {salary}
                 </div>
               </div>
@@ -77,7 +72,9 @@ const Salary = () => {
 };
 
 export default Salary;
-//  // const [hoursWorked, setHoursWorked] = useState(0);
+
+
+// const [hoursWorked, setHoursWorked] = useState(0);
   // const [hourlyRate, setHourlyRate] = useState(0);
   // const [salary, setSalary] = useState(0);
   // const [attendanceData, setAttendanceData] = useState([]);

@@ -4,7 +4,7 @@ import { UserAuth } from '../context/AuthContext';
 
 const Navbar2 = () => {
     const { user } = UserAuth();
-    const isAdmin = user?.email === 'admin@bitmesra.com';
+    // const isAdmin = user?.email === 'admin@bitmesra.com';
 
     return (
         <>
@@ -14,7 +14,7 @@ const Navbar2 = () => {
                     <div className="flex flex-col w-[80%] md:w-[80%] lg:w-[80%] shadow-lg bg-white border-t-2 py-4">
                         <div className="flex justify-center">
                             <img 
-                                src="https://th.bing.com/th/id/R.6c9e8d549c29a19173e9ad2ba5d9d6dc?rik=u8%2ffeDWK0X%2bFKQ&riu=http%3a%2f%2fservices.bitmesra.ac.in%2flogo%2fbit-newlogo.png&ehk=iAZkrPum56DincLE%2fWHHmVhuoEhFjrYWT8XAmUlbauQ%3d&risl=&pid=ImgRaw&r=0" 
+                                src="https://i.postimg.cc/fRrWVYhL/bit.png" 
                                 alt="Logo" 
                                 className="max-h-[60px] max-w-[60px]" 
                             />
@@ -32,7 +32,7 @@ const Navbar2 = () => {
                                 <Link to='/dashboard'>Dashboard</Link>
                             </div>
                             <div className="mb-2 py-2 border-b">
-                                <Link to='/profile'>Profile</Link>
+                                <Link to='E/profile'>Profile</Link>
                             </div>
                             <div className="mb-2 py-2 border-b">
                                 <Link to='/salary'>Salary</Link>
